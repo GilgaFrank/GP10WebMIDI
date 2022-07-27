@@ -1,0 +1,1 @@
+Currently queries mySQL database and retrieves a list of users instead of actually puilling back program change info in the JSO, just done as a proof of concept and latency test. 
