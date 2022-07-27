@@ -128,7 +128,7 @@ function onMIDISuccess(midiAccess) {
     console.log(globalMIDIAccess.inputs);
 
     globalMIDIAccess.inputs.forEach((input) => {
-        //console.log("FOUND INPUT: " + input.name); /* inherited property from MIDIPort */
+        console.log("FOUND INPUT: " + input.name); /* inherited property from MIDIPort */
         //console.log(message.data);
         switch (input.name) {
             case GP10Name:
@@ -152,7 +152,7 @@ function onMIDISuccess(midiAccess) {
 
 
     globalMIDIAccess.outputs.forEach((output) => {
-        //console.log("FOUND OUTPUT: " + output.name); /* inherited property from MIDIPort */
+        console.log("FOUND OUTPUT: " + output.name); /* inherited property from MIDIPort */
         switch (output.name) {
             case TimeFactorName:
                 console.log("FOUND TIMEFACTOR AT: " + output.name); 
@@ -183,6 +183,52 @@ function onMIDIFailure(msg) {
     showGP10Message("Failed to get MIDI access - " + msg);
 }
 
+/*
+TO-DO: Move all UI initialisation into a module
+*/
+
+
+function btnRC500Start_ClickHandler(event) {
+    alert("START");
+}
+
+function btnRC500Stop_ClickHandler(event) {
+    alert("STOP");
+}
+
+function btnRC500Rec1_ClickHandler(event) {
+    alert("REC1");
+}
+
+function btnRC500Rec2_ClickHandler(event) {
+    alert("REC2");
+}
+
+function btnEventideBypass_ClickHandler(event) {
+    alert(event.target.id);
+}
+
+function initRC500Buttons() {
+    document.getElementById("btnRC500Start").addEventListener("click", btnRC500Start_ClickHandler);
+    document.getElementById("btnRC500Stop").addEventListener("click", btnRC500Stop_ClickHandler);
+    document.getElementById("btnRC500Rec1").addEventListener("click", btnRC500Rec1_ClickHandler);
+    document.getElementById("btnRC500Rec2").addEventListener("click", btnRC500Rec2_ClickHandler);
+}
+
+function initEventideButtons() {
+    document.getElementById("btnTimeFactor_Bypass").addEventListener("click", btnEventideBypass_ClickHandler);
+    document.getElementById("btnPitchFactor_Bypass").addEventListener("click", btnEventideBypass_ClickHandler);
+    document.getElementById("btnSpace_Bypass").addEventListener("click", btnEventideBypass_ClickHandler);
+}
+
+function initUI() {
+    initRC500Buttons();
+    initEventideButtons();
+}
+
+/*
+WebMIDI only works from localhost or 127.0.0.1
+*/
 
 window.addEventListener('load', (event) => {
     var currentURL = window.location.href;
@@ -195,5 +241,5 @@ window.addEventListener('load', (event) => {
     preGP10Debug = document.getElementById("preGP10Debug");
     preRC500Debug = document.getElementById("preRC500Debug");
     msgDebug = document.getElementById("msgDebug");
-
+    initUI();
 });
