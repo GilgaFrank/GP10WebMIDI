@@ -4,6 +4,11 @@ MODULE IMPORTS
 import * as MIDIStatus from "./MIDIStatuses.js";
 import {getJSONResponse} from "./JSON.js";
 import * as UIBuilder from "./UIBuilder.js";
+import * as EventideCCs from "./Eventide_MIDI_CCs.js";
+import * as RC500CCs from "./RC500_MIDI_CCs.js"
+
+alert(EventideCCs.BYPASS);
+alert(RC500CCs.KIT_TYPE);
 
 var globalMIDIAccess;
 
