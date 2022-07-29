@@ -75,8 +75,12 @@ function decipherMessage(message, sourceName) {
         OutputToPitchFactor.send(message);
         OutputToTimeFactor.send(message);
         OutputToSpace.send(message);
-        OutputToRC500.send(message);
+        //OutputToRC500.send(message);
     }
+
+    var msgTypeMatched = MIDIStatus.findMessageType(message)[0];
+
+    console.log(msgTypeMatched);
 
 }
 
@@ -125,10 +129,11 @@ function GP10MIDIMessage(message) {
     console.log("GP10MIDIMessage: length " + message.data.length);
     showGP10Message(message.data);
     decipherMessage(message.data, "GP10");
-
+/*
         OutputToTimeFactor.send(message.data);
         OutputToPitchFactor.send(message.data);
         OutputToSpace.send(message.data);
+*/
 }
 
 
