@@ -1,6 +1,49 @@
+body {
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12pt;
+}
+
+
 td {
     border: solid 1px black;
     text-align: top;
     vertical-align: top;
+    
+}
+
+#ui {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    background-color: #eee;
+}
+
+div.spinControlWrapper {
+    border: solid 1px black;
+    margin: 5px;
+    padding: 5px;
+}
+
+
+div.spinControlWrapper > button{
+    border: none;
+    color: white;
+    background-color: blue;
+    padding: 5px;
+    margin: 5px;
+}
+
+
+
+div.spinControlCaption {
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+span.spinValueDisplay {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    padding: 5px;
+    background-color: white;
     
 }

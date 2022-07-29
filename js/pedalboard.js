@@ -3,7 +3,7 @@ MODULE IMPORTS
 */
 import * as MIDIStatus from "./MIDIStatuses.js";
 import {getJSONResponse} from "./JSON.js";
-
+import * as UIBuilder from "./UIBuilder.js";
 
 var globalMIDIAccess;
 
@@ -24,6 +24,8 @@ var OutputToSpace = null;
 var preGP10Debug;
 var preRC500Debug;
 var msgDebug;
+
+var UIRootDiv;
 
 var RC500MessageCount = 0;
 var GP10MessageCount = 0;
@@ -176,6 +178,7 @@ function onMIDISuccess(midiAccess) {
         }
     });
 
+    
 }
 
 
@@ -221,9 +224,40 @@ function initEventideButtons() {
     document.getElementById("btnSpace_Bypass").addEventListener("click", btnEventideBypass_ClickHandler);
 }
 
+function spinClickHandler(event) {
+    console.log(event.target.id);
+}
+
 function initUI() {
     initRC500Buttons();
     initEventideButtons();
+
+
+    UIBuilder.addSpinner(UIRootDiv, 
+        spinClickHandler, 
+        spinClickHandler,
+        "Tempo",
+        "spinTempo", 0, 200, 120);
+
+    UIBuilder.addSpinner(UIRootDiv, 
+        spinClickHandler, 
+        spinClickHandler,
+        "MIDI Channel",
+        "spinMIDIChannel", 1, 16, 1);
+  
+    var btnResetAll = document.createElement("button");
+    btnResetAll.innerHTML = "RESET EVENTIDES";
+    btnResetAll.addEventListener("click", sendProgramChangeZeroToAll);
+    document.getElementById("btnRC500Start").parentElement.appendChild(btnResetAll);
+    btnResetAll.style.backgroundColor="red";
+    btnResetAll.style.color="white";
+    btnResetAll.style.fontWeight="bold";
+}
+
+function sendProgramChangeZeroToAll() {
+    OutputToPitchFactor.send([MIDIStatus.PROGRAM_CHANGE, 0]);
+    OutputToTimeFactor.send([MIDIStatus.PROGRAM_CHANGE, 0]);
+    OutputToSpace.send([MIDIStatus.PROGRAM_CHANGE, 0]);
 }
 
 /*
@@ -241,5 +275,6 @@ window.addEventListener('load', (event) => {
     preGP10Debug = document.getElementById("preGP10Debug");
     preRC500Debug = document.getElementById("preRC500Debug");
     msgDebug = document.getElementById("msgDebug");
+    UIRootDiv = document.getElementById("ui");
     initUI();
 });
