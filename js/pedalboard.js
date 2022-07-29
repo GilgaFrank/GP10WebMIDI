@@ -7,10 +7,7 @@ import * as UIBuilder from "./UIBuilder.js";
 import * as EventideCCs from "./Eventide_MIDI_CCs.js";
 import * as RC500CCs from "./RC500_MIDI_CCs.js"
 
-/*
-alert(EventideCCs.BYPASS);
-alert(RC500CCs.KIT_TYPE);
-*/
+
 
 var globalMIDIAccess;
 
@@ -71,7 +68,7 @@ function decipherMessage(message, sourceName) {
     
     if (parseInt(midiCommmandHEX, 16) == MIDIStatus.PROGRAM_CHANGE && sourceName == "GP10") {        
         getJSONResponse(10);
-        //alert("GET JSON " + midiCommmandHEX);
+        console.log("GET JSON " + midiCommmandHEX);
         OutputToPitchFactor.send(message);
         OutputToTimeFactor.send(message);
         OutputToSpace.send(message);
@@ -204,23 +201,23 @@ TO-DO: Move all UI initialisation into a module
 
 
 function btnRC500Start_ClickHandler(event) {
-    alert("START");
+    console.log("START");
 }
 
 function btnRC500Stop_ClickHandler(event) {
-    alert("STOP");
+    console.log("STOP");
 }
 
 function btnRC500Rec1_ClickHandler(event) {
-    alert("REC1");
+    console.log("REC1");
 }
 
 function btnRC500Rec2_ClickHandler(event) {
-    alert("REC2");
+    console.log("REC2");
 }
 
 function btnEventideBypass_ClickHandler(event) {
-    alert(event.target.id);
+    console.log(event.target.id);
 }
 
 function initRC500Buttons() {

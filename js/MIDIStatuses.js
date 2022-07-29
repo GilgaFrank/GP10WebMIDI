@@ -53,7 +53,7 @@ export function findMessageType(message) {
     
     //find match for message!
     var matchingMessages =  filterMessages(midiStatus);
-    alert("MATCHES " + matchingMessages.length);
+    console.log("MATCHES " + matchingMessages.length);
     return matchingMessages;
 }
 
