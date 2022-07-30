@@ -8,15 +8,17 @@ import * as EventideCCs from "./Eventide_MIDI_CCs.js";
 import * as RC500CCs from "./RC500_MIDI_CCs.js"
 
 
-
+//navigator MIDIAccess
 var globalMIDIAccess;
 
-var GP10Name = "GP-10 MIDI 1";
-var RC500Name = "BOSS_RC-500 MIDI 1";
-var TimeFactorName = "TimeFactor Pedal MIDI 1";
-var PitchFactorName = "PitchFactor Pedal MIDI 1";
-var SpaceName = "Space Pedal MIDI 1";
+//constants for MIDI device identification
+const GP10Name = "GP-10 MIDI 1";
+const RC500Name = "BOSS_RC-500 MIDI 1";
+const TimeFactorName = "TimeFactor Pedal MIDI 1";
+const PitchFactorName = "PitchFactor Pedal MIDI 1";
+const SpaceName = "Space Pedal MIDI 1";
 
+//MIDI ports
 var InputFromGP10 = null;
 var InputFromRC500 = null;
 
@@ -25,12 +27,14 @@ var OutputToTimeFactor = null;
 var OutputToPitchFactor = null;
 var OutputToSpace = null;
 
+
+//UI elements
 var preGP10Debug;
 var preRC500Debug;
 var msgDebug;
-
 var UIRootDiv;
 
+//count of debug messages
 var RC500MessageCount = 0;
 var GP10MessageCount = 0;
 
@@ -40,7 +44,7 @@ function numberToHex(num) {
 }
 
 function decipherMessage(message, sourceName) {
-    
+    //identifies prog change, not on/off etc
     var msgTypeMatched = MIDIStatus.findMessageType(message);
     
     var midiChannel = msgTypeMatched.channel;
@@ -89,6 +93,7 @@ function decipherMessage(message, sourceName) {
 
 
 function showGP10Message(debugMessage) {
+    //debug helper to show MIDI events in UI
     console.log("showGP10Message: " + debugMessage);
     preGP10Debug.innerHTML += GP10MessageCount + " GP: " + debugMessage + "<br />";
     GP10MessageCount++;
@@ -99,6 +104,7 @@ function showGP10Message(debugMessage) {
 }
 
 function showRC500Message(debugMessage) {
+    //debug helper to show MIDI events in UI
     preRC500Debug.innerHTML += RC500MessageCount + " RC: " + debugMessage + "<br />";
     RC500MessageCount++;
     if (RC500MessageCount > 20) {
@@ -111,6 +117,7 @@ function showRC500Message(debugMessage) {
 
 
 function RC500MIDIMessage(message) {
+    //callback for reciving/forwarding MIDI clock from clock master RC500
     if (message.data==MIDIStatus.CLOCK_CONTINUE 
         || message.data==MIDIStatus.CLOCK_PULSE 
         || message.data==MIDIStatus.CLOCK_START 
@@ -129,6 +136,7 @@ function RC500MIDIMessage(message) {
 
 
 function GP10MIDIMessage(message) {
+    //callback for reciving/forwarding MIDI from GP10
     console.log("GP10MIDIMessage: length " + message.data.length);
     showGP10Message(message.data);
     decipherMessage(message.data, "GP10");
@@ -141,9 +149,12 @@ function GP10MIDIMessage(message) {
 
 
 function onMIDISuccess(midiAccess) {
+    //gets MIDIAccess global, assigns input and output ports and callbacks
     globalMIDIAccess = midiAccess;
     console.log(globalMIDIAccess.inputs);
 
+
+    //identify input ports
     globalMIDIAccess.inputs.forEach((input) => {
         console.log("FOUND INPUT: " + input.name); /* inherited property from MIDIPort */
         //console.log(message.data);
@@ -168,6 +179,7 @@ function onMIDISuccess(midiAccess) {
     });
 
 
+    //identify output ports
     globalMIDIAccess.outputs.forEach((output) => {
         console.log("FOUND OUTPUT: " + output.name); /* inherited property from MIDIPort */
         switch (output.name) {
@@ -205,7 +217,7 @@ function onMIDIFailure(msg) {
 TO-DO: Move all UI initialisation into a module
 */
 
-
+//debug only, UI elements to fire MIDI functions
 function btnRC500Start_ClickHandler(event) {
     console.log("START");
 }
@@ -226,6 +238,8 @@ function btnEventideBypass_ClickHandler(event) {
     console.log(event.target.id);
 }
 
+
+//UI debug element create and setup
 function initRC500Buttons() {
     document.getElementById("btnRC500Start").addEventListener("click", btnRC500Start_ClickHandler);
     document.getElementById("btnRC500Stop").addEventListener("click", btnRC500Stop_ClickHandler);
@@ -233,16 +247,19 @@ function initRC500Buttons() {
     document.getElementById("btnRC500Rec2").addEventListener("click", btnRC500Rec2_ClickHandler);
 }
 
+//UI debug element create and setup
 function initEventideButtons() {
     document.getElementById("btnTimeFactor_Bypass").addEventListener("click", btnEventideBypass_ClickHandler);
     document.getElementById("btnPitchFactor_Bypass").addEventListener("click", btnEventideBypass_ClickHandler);
     document.getElementById("btnSpace_Bypass").addEventListener("click", btnEventideBypass_ClickHandler);
 }
 
+//UI debug element handler
 function spinClickHandler(event) {
     console.log(event.target.id);
 }
 
+//create debug buttons and add handlers
 function initUI() {
     initRC500Buttons();
     initEventideButtons();
@@ -269,6 +286,7 @@ function initUI() {
     btnResetAll.style.fontWeight="bold";
 }
 
+//event handler to send prog change 0 to all Eventide output ports
 function sendProgramChangeZeroToAll() {
     OutputToPitchFactor.send([MIDIStatus.PROGRAM_CHANGE, 0]);
     OutputToTimeFactor.send([MIDIStatus.PROGRAM_CHANGE, 0]);
