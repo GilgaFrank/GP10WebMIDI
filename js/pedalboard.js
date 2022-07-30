@@ -40,16 +40,19 @@ function numberToHex(num) {
 }
 
 function decipherMessage(message, sourceName) {
-    var midiChannel;
-    msgDebug.innerHTML = message.length;
+    
+    var msgTypeMatched = MIDIStatus.findMessageType(message);
+    
+    var midiChannel = msgTypeMatched.channel;
+    msgDebug.innerHTML = msgTypeMatched.msgType + " on channel " + midiChannel;
     var midiStatus = message[0];
     console.log("::decipherMessage from " + sourceName + " ::");
-    console.log("decipherMessage: " + midiStatus + " LEN: " + message.length);
+    console.log("decipherMessage: " + msgTypeMatched.statusByte + " LEN: " + msgTypeMatched.byteLength);
 
     var midiCommand = numberToHex(midiStatus & 0xF0); // mask off all but top 4 bits
 
     if (message.length > 1) {        
-        midiChannel = midiStatus & 0x0F;        
+        //midiChannel = midiStatus & 0x0F;        
         console.log("decipherMessage CH: " + numberToHex(midiChannel) + " STAT: 0x" + numberToHex(midiStatus) + " (" + midiStatus.toString() + ") CMD: " + midiCommand);
     } else {
         for (var midiByteNum=0;midiByteNum<message.length;midiByteNum++) {
@@ -66,18 +69,21 @@ function decipherMessage(message, sourceName) {
     
     var midiCommmandHEX = numberToHex(parseInt("0x" + midiCommand))
     
-    if (parseInt(midiCommmandHEX, 16) == MIDIStatus.PROGRAM_CHANGE && sourceName == "GP10") {        
-        getJSONResponse(10);
+    
+    if (msgTypeMatched.statusByte == MIDIStatus.PROGRAM_CHANGE && sourceName == "GP10") {        
+        //TODO: this needs to be async/promise code
         console.log("GET JSON " + midiCommmandHEX);
+        var JSONPCList = getJSONResponse(10);
+        
+        //alert("JSONPCList: " + JSONPCList);
+/*  
         OutputToPitchFactor.send(message);
         OutputToTimeFactor.send(message);
         OutputToSpace.send(message);
+*/
         //OutputToRC500.send(message);
     }
 
-    var msgTypeMatched = MIDIStatus.findMessageType(message)[0];
-
-    console.log(msgTypeMatched);
 
 }
 

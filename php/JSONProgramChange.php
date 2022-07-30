@@ -8,7 +8,7 @@ if ($mysqli -> connect_errno) {
 }
 
 $myArray = array();
-$result = $mysqli->query("SELECT FLOOR(RAND()*100);");
+$result = $mysqli->query("SELECT FLOOR(RAND()*100) AS PC0, FLOOR(RAND()*100) AS PC1, FLOOR(RAND()*100) AS PC2 ;");
 while($row = $result->fetch_assoc()) {
     $myArray[] = $row;
 }

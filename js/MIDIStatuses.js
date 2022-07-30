@@ -17,6 +17,9 @@ const CLOCK_CONTINUE = 0xfb;
 const CLOCK_STOP = 0xfc;
 const SYSEX_START = 0xf0;
 
+/*
+//No longer used!
+
 const TWO_BYTE_MESSAGES = new Array(CHANNEL_AFTERTOUCH, PITCH_BEND);
 const THREE_BYTE_MESSAGES = new Array(PROGRAM_CHANGE, CONTROL_CHANGE, NOTE_OFF, NOTE_ON, POLY_AFTERTOUCH);
 
@@ -30,6 +33,8 @@ const THREE_BYTE_MESSAGE_TYPES = {"Program change" : PROGRAM_CHANGE,
             "Note off" : NOTE_OFF,
             "Poly aftertouch" : POLY_AFTERTOUCH};
 
+*/
+
 var messageTypes = [
     {msgType: "Program change", statusByte : PROGRAM_CHANGE, byteLength: 3},
     {msgType: "Control change", statusByte : CONTROL_CHANGE, byteLength: 3},
@@ -37,7 +42,7 @@ var messageTypes = [
     {msgType: "Note on", statusByte : NOTE_ON, byteLength: 3},
     {msgType: "Poly aftertouch", statusByte : POLY_AFTERTOUCH, byteLength: 3},
     {msgType: "Channel aftertouch", statusByte : CHANNEL_AFTERTOUCH, byteLength: 2},
-    {msgType: "Pitch", statusByte : PITCH_BEND, byteLength: 2}
+    {msgType: "Pitch bend", statusByte : PITCH_BEND, byteLength: 2}
 ];
 
 function filterMessages(typeQuery) {
@@ -54,7 +59,32 @@ export function findMessageType(message) {
     //find match for message!
     var matchingMessages =  filterMessages(midiStatus);
     console.log("MATCHES " + matchingMessages.length);
-    return matchingMessages;
+    /*
+    TODO: Extract channel and data here and add properties to matchingMessages
+    */
+    matchingMessages[0].channel = midiChannel;
+
+    var byte1 = null;
+    var byte2 = null;
+
+    try {
+        byte1 = message[1];
+        console.log("MATCH message: " + message);
+        console.log("MATCH length: " + matchingMessages.length + " MATCH byte1: " + byte1);
+        
+        try {
+            byte2 = message[2];
+            console.log("MATCH byte2: " + byte2);
+        }
+        catch (err) {
+
+        }
+    }
+    catch (err) {
+
+    }
+
+    return matchingMessages[0];
 }
 
 
