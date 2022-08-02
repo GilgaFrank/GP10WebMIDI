@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <script type="text/javascript">
+function generateAndPost() {
+    const postReceiver="./saveJSON.php";
+    var text = '{ "employees" : [' +
+            '{ "firstName":"John" , "lastName":"Francis" },' +
+            '{ "firstName":"Anna" , "lastName":"Smith" },' +
+            '{ "firstName":"Peter" , "lastName":"Jones" } ]}'; 
+
+
+    const jsonObj = JSON.parse(text);
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", postReceiver);
+
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onload = () => console.log(xhr.responseText);
+
+    xhr.onreadystatechange = function() {
+        console.log(this.readyState);
+    }
+
+    xhr.send(text);    
+            }
+    
+        </script>
+    </head>
+    <body>
+        <button id="btnJSONPOST" onclick="generateAndPost()">Post JSON</button>
+        <hr />
+        <pre id="preResponse" style="border: solid 1px black;"></pre>
+    </body>
+</html>

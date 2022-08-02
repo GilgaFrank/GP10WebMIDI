@@ -157,22 +157,22 @@ function onMIDISuccess(midiAccess) {
     //identify input ports
     globalMIDIAccess.inputs.forEach((input) => {
         console.log("FOUND INPUT: " + input.name); /* inherited property from MIDIPort */
-        //console.log(message.data);
+        
         switch (input.name) {
             case GP10Name:
                 input.onmidimessage = GP10MIDIMessage;
-                showGP10Message("SET GP10 FOR " + input.name);
+                console.log("** SET GP10 FOR " + input.name);
                 InputFromGP10 = input;
                 break;
 
             case RC500Name:
                 input.onmidimessage = RC500MIDIMessage;
-                showRC500Message("SET RC FOR " + input.name);
+                console.log("** SET RC FOR " + input.name);
                 InputFromRC500 = input;
                 break;
 
             default:
-                //console.log("NO INPUT MATCH FOR: " + input.name); 
+                console.log("NO INPUT MATCH FOR: " + input.name); 
                 break;
         }
 
