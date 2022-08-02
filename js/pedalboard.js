@@ -206,6 +206,7 @@ function onMIDISuccess(midiAccess) {
     });
 
     
+    
 }
 
 
@@ -236,6 +237,12 @@ function btnRC500Rec2_ClickHandler(event) {
 
 function btnEventideBypass_ClickHandler(event) {
     console.log(event.target.id);
+    bypassPitchFactor();
+}
+
+function btnEventideActive_ClickHandler(event) {
+    console.log(event.target.id);
+    unbypassPitchFactor();
 }
 
 
@@ -251,7 +258,23 @@ function initRC500Buttons() {
 function initEventideButtons() {
     document.getElementById("btnTimeFactor_Bypass").addEventListener("click", btnEventideBypass_ClickHandler);
     document.getElementById("btnPitchFactor_Bypass").addEventListener("click", btnEventideBypass_ClickHandler);
+    document.getElementById("btnPitchFactor_Active").addEventListener("click", btnEventideActive_ClickHandler);
     document.getElementById("btnSpace_Bypass").addEventListener("click", btnEventideBypass_ClickHandler);
+
+    
+    document.getElementById("btnPitchFactor_Tuner").addEventListener("click", btnEventideTuner_ClickHandler);
+    document.getElementById("btnPitchFactor_TunerOFF").addEventListener("click", btnEventideTunerOFF_ClickHandler);
+}
+
+function btnEventideTuner_ClickHandler() {
+    showRC500Message("TUNER START");
+    
+    tunerPitchFactorON();
+}
+
+function btnEventideTunerOFF_ClickHandler() {
+    showRC500Message("TUNER OFF");   
+    tunerPitchFactorOFF();
 }
 
 //UI debug element handler
@@ -297,6 +320,34 @@ function sendProgramChangeZeroToAll() {
 WebMIDI only works from localhost or 127.0.0.1
 */
 
+function bypassPitchFactor() {
+    var unbypassMessage = [MIDIStatus.CONTROL_CHANGE, EventideCCs.BYPASS, 127];
+    showRC500Message(unbypassMessage);
+    OutputToPitchFactor.send(unbypassMessage);
+}
+
+function unbypassPitchFactor() {
+    var bypassMessage = [MIDIStatus.CONTROL_CHANGE, EventideCCs.ACTIVE, 127];
+    showRC500Message(bypassMessage);
+    OutputToPitchFactor.send(bypassMessage);
+}
+
+function tunerPitchFactorON() {
+    //var showTunerMessage = [MIDIStatus.CONTROL_CHANGE, numberToHex(EventideCCs.TUNER), numberToHex(127)];
+    var showTunerMessage = [MIDIStatus.CONTROL_CHANGE, EventideCCs.TUNER, 127];
+    showRC500Message(showTunerMessage);
+    OutputToPitchFactor.send(showTunerMessage);
+    
+}
+
+function tunerPitchFactorOFF() {
+    //var showTunerMessage = [MIDIStatus.CONTROL_CHANGE, numberToHex(EventideCCs.TUNER), numberToHex(127)];
+    var showTunerMessage = [MIDIStatus.CONTROL_CHANGE, EventideCCs.TUNER, 0];
+    showRC500Message(showTunerMessage);
+    OutputToPitchFactor.send(showTunerMessage);
+    
+}
+
 window.addEventListener('load', (event) => {
     var currentURL = window.location.href;
     if (currentURL.indexOf("http://localhost") == -1) {
@@ -310,4 +361,7 @@ window.addEventListener('load', (event) => {
     msgDebug = document.getElementById("msgDebug");
     UIRootDiv = document.getElementById("ui");
     initUI();
+
+    
+
 });

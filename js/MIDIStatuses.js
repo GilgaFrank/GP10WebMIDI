@@ -17,24 +17,6 @@ const CLOCK_CONTINUE = 0xfb;
 const CLOCK_STOP = 0xfc;
 const SYSEX_START = 0xf0;
 
-/*
-//No longer used!
-
-const TWO_BYTE_MESSAGES = new Array(CHANNEL_AFTERTOUCH, PITCH_BEND);
-const THREE_BYTE_MESSAGES = new Array(PROGRAM_CHANGE, CONTROL_CHANGE, NOTE_OFF, NOTE_ON, POLY_AFTERTOUCH);
-
-const TWO_BYTE_MESSAGE_TYPES = {"Channel aftertouch" : CHANNEL_AFTERTOUCH, 
-                "Pitch bend" : PITCH_BEND};
-
-
-const THREE_BYTE_MESSAGE_TYPES = {"Program change" : PROGRAM_CHANGE, 
-            "Control change" : CONTROL_CHANGE,
-            "Note on" : NOTE_ON,
-            "Note off" : NOTE_OFF,
-            "Poly aftertouch" : POLY_AFTERTOUCH};
-
-*/
-
 var messageTypes = [
     {msgType: "Program change", statusByte : PROGRAM_CHANGE, byteLength: 3},
     {msgType: "Control change", statusByte : CONTROL_CHANGE, byteLength: 3},
