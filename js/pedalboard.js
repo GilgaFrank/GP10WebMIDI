@@ -362,6 +362,4 @@ window.addEventListener('load', (event) => {
     UIRootDiv = document.getElementById("ui");
     initUI();
 
-    
-
 });
