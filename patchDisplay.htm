@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Patch Display</title>
+		<script type="text/javascript">
+		
+		var ctx;
+		
+		function writeToCanvas(event) {
+			sayHello(event.target.innerHTML);
+		}
+		
+		function initButtons() {
+			document.getElementById("btnTimeFactorModal").addEventListener("click", function(event) { 
+																					writeToCanvas(event);
+																					});
+			document.getElementById("btnPitchFactorModal").addEventListener("click", function(event) { 
+																					writeToCanvas(event);
+																					});
+			document.getElementById("btnSpaceModal").addEventListener("click", function(event) { 
+																					writeToCanvas(event);
+																					});
+			document.getElementById("btnRC500Modal").addEventListener("click", function(event) { 
+																					writeToCanvas(event);
+																					});
+			document.getElementById("btnTuner").addEventListener("click", function(event) { 
+																					writeToCanvas(event);
+																					});
+																					
+																					
+			document.getElementById("btnPatchMinus10").addEventListener("click", function(event) { 
+																					writeToCanvas(event);
+																					});
+			document.getElementById("btnPatchMinus1").addEventListener("click", function(event) { 
+																					writeToCanvas(event);
+																					});
+			document.getElementById("btnPatchPlus10").addEventListener("click", function(event) { 
+																					writeToCanvas(event);
+																					});
+			document.getElementById("btnPatchPlus1").addEventListener("click", function(event) { 
+																					writeToCanvas(event);
+																					});
+			document.getElementById("btnResetEventides").addEventListener("click", function(event) { 
+																					writeToCanvas(event);
+																					});
+			document.getElementById("btnBypassAll").addEventListener("click", function(event) { 
+																					writeToCanvas(event);
+																					});
+		}
+		
+		function init() {
+			var cnvPatchDisplay = document.getElementById("cnvPatchDisplay");
+			ctx = cnvPatchDisplay.getContext("2d");
+			initButtons();
+			blankCanvas();
+		}
+		
+		function blankCanvas() {
+			ctx.fillStyle="black";
+			ctx.fillRect(0,0,1024, 600);
+		}
+		
+		function sayHello(txt) {
+			blankCanvas();
+			ctx.fillStyle="#00ff00";
+			ctx.font = "120pt Arial";
+			
+			ctx.fillText(txt, 10, 175);
+			//ctx.fillText("width:" + Math.floor(ctx.measureText(txt).width), 10, 250)
+			
+		}
+		
+		window.addEventListener ("load", 
+									function() {
+										init();
+									});
+		
+		</script>
+		<style type="text/css">
+		
+		* {
+			cursor: none;
+		}
+		
+		#divPedalButtons, #divPatchButtons {
+			position: fixed;
+			width: 1024px;
+			padding: 0px;
+			margin: 0px;
+		}
+		
+		#divPedalButtons {
+			top: 0px;
+			left: 0px;
+			z-index: 2;
+		}
+		
+		#divPatchButtons {
+			top: 553px;
+			left: 0px;
+			z-index: 3;
+		}
+		
+		body {
+			margin: 0px;
+			padding: 0px;
+			background-color: black;
+		}
+		
+		html {
+			margin: 0px;
+			padding: 0px;
+		}
+		
+		#divPedalButtons button, #divPatchButtons button  {
+			min-width: 120px;
+			margin-left: 5px;
+			margin-top: 5px;
+			color: white;
+			background-color: blue;
+			border: solid 3px white;
+			padding-left: 5px;
+			padding-right: 5px;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			font-weight: bold;
+			font-variant: small-caps;
+			border-radius: 15px;
+			font-size: medium;
+			
+		}
+		
+		#divPedalButtons button:active, #divPatchButtons button:active {			
+			background-color: red;
+			border: solid 3px black;
+			color: black;
+		}
+		
+		canvas {
+			margin: 0px;padding: 0px;
+		}
+		
+		</style>
+	</head>
+	<body><div style="margin: 0px; padding:0px;z-index: 1;">
+			<canvas id="cnvPatchDisplay" width="1000" height="590"></canvas>
+		</div><div id="divPedalButtons">
+			<button id="btnTimeFactorModal">TimeFactor</button>
+			<button id="btnPitchFactorModal">PitchFactor</button>
+			<button id="btnSpaceModal">Space</button>
+			<button id="btnRC500Modal">Looper</button>
+			<button id="btnTuner">Tuner</button>
+			<button id="btnResetEventides">Reset</button>
+			<button id="btnBypassAll">Bypass	</button>
+		</div><div id="divPatchButtons">
+			<button id="btnPatchMinus10">&darr;&darr; Patch</button>
+			<button id="btnPatchMinus1">&darr; Patch</button>
+			<button id="btnPatchPlus1">Patch &uarr;</button>
+			<button id="btnPatchPlus10">Patch &uarr;&uarr;</button>
+		</div></body>
+</html>
